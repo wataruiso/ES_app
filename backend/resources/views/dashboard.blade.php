@@ -14,8 +14,10 @@
             <a href="/todo/create" class="p-3 font-bold text-xl">create</a>
                 @foreach ($todos as $todo)
                 <div>
+                    <a href="/todo/{{ $todo->id }}/edit">
                     <h3>{{ $todo->title }}</h3>
                     <p>{{ $todo->description }}</p>
+                    </a>
                 </div>
                 @endforeach
             </div>

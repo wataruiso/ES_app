@@ -19,5 +19,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [TodoController::class, 'index'])->name('dashboard');
 Route::middleware(['auth:sanctum', 'verified'])->get('/todo/create', [TodoController::class, 'create']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/todo', [TodoController::class, 'store']);
+Route::middleware(['auth:sanctum', 'verified'])->get('/todo/{id}/edit', [TodoController::class, 'edit']);
+Route::middleware(['auth:sanctum', 'verified'])->put('/todo/{id}', [TodoController::class, 'update']);
+Route::middleware(['auth:sanctum', 'verified'])->delete('/todo/{id}', [TodoController::class, 'delete']);
 
-Route::post('/todo', [TodoController::class, 'store']);

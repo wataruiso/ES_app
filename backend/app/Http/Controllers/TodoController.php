@@ -32,4 +32,31 @@ class TodoController extends Controller
 
         return redirect('/dashboard')->with('message', '投稿に成功しました');
     }
+    
+    public function edit($id)
+    {
+        return view('todo.edit')
+        ->with('todo', Todo::find($id));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        Todo::find($id)->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+        ]);
+
+        return redirect('/dashboard')->with('message', '編集に成功しました');
+    }
+
+    public function delete($id)
+    {
+        Todo::find($id)->delete();
+        return redirect('/dashboard')->with('message', 'タスクを削除しました');
+    }
 }
