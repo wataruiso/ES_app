@@ -15,10 +15,10 @@ class Todos extends Migration
     {
         Schema::create('todos', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
+            $table->char('title', 20);
             $table->longText('description');
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
         });
     }
 
