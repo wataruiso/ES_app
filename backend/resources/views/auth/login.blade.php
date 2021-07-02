@@ -1,7 +1,10 @@
 <x-guest-layout>
+    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">新規登録</a>
+    </div>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <p class="text-xl font-bold">ログイン</p>
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
@@ -42,6 +45,9 @@
                 <x-jet-button class="ml-4">
                     {{ __('Log in') }}
                 </x-jet-button>
+            </div>
+            <div class="text-right mt-5">
+                <a href="{{ url('oauth/google/redirect') }}">Google Log in</a>
             </div>
         </form>
     </x-jet-authentication-card>

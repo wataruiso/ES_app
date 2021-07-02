@@ -3,7 +3,7 @@
     <form id="edit" action="/todo/{{ $todo->id }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-        <x-jet-input name="title" value="{{ $todo->title }}" form="edit"></x-jet-input>
+        <x-jet-input name="title" value="{{ old('title') ?? $todo->title }}" form="edit"></x-jet-input>
         <textarea name="description" cols="30" rows="10" form="edit">{{ $todo->description }}</textarea>
         <x-jet-button>編集</x-jet-button>
     </form>
