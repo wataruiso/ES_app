@@ -1,4 +1,4 @@
-@component('components.todo-form')
+@component('components.input-form')
     <form action="/todo" method="POST" enctype="multipart/form-data">
     @csrf
         <x-jet-input name="title" value="{{ old('title') }}"></x-jet-input>

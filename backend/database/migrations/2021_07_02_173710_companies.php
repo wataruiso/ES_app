@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Todos extends Migration
+class Companies extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class Todos extends Migration
      */
     public function up()
     {
-        Schema::create('todos', function(Blueprint $table) {
+        Schema::create('companies', function(Blueprint $table) {
             $table->increments('id');
-            $table->char('title', 20);
-            $table->longText('description');
-            $table->foreignId('entry_id');
-            $table->boolean('is_done');
+            $table->char('name', 20);
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });
@@ -31,6 +28,6 @@ class Todos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('todos');
+        Schema::dropIfExists('companies');
     }
 }

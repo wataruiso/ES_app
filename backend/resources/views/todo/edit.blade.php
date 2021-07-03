@@ -1,4 +1,4 @@
-@component('components.todo-form')
+@component('components.input-form')
 
     <form id="edit" action="/todo/{{ $todo->id }}" method="POST" enctype="multipart/form-data">
     @csrf

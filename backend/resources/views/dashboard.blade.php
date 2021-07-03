@@ -11,7 +11,7 @@
             <p>{{ session()->get('message') }}</p>
         @endif -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg lg:grid grid-cols-3 gap-4">
-            <a href="/todo/create" class="p-3 font-bold text-xl">create</a>
+            <a href="/todo/create" class="p-3 font-bold text-xl">タスクを追加</a>
                 @foreach ($todos as $todo)
                 <div>
                     <a href="/todo/{{ $todo->id }}/edit">
