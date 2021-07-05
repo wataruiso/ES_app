@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
         Route::get('/', [EntryController::class, 'index'])->name('entry');
         Route::get('/create', [EntryController::class, 'create']);
+        Route::post('/', [EntryController::class, 'store']);
         
     });
 });

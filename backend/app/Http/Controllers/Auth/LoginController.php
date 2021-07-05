@@ -21,7 +21,7 @@ class LoginController extends Controller
     public function handleProviderCallback (Request $request)
     {
         $provider = $request->provider;
-        $sns_user = Socialite::driver($provider)->user();
+        $sns_user = Socialite::driver($provider)->stateless()->user();
         $sns_email = $sns_user->getEmail();
         $sns_name = $sns_user->getName();
 

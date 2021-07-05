@@ -33,6 +33,9 @@ class QuestionCategorySeeder extends Seeder
             [
                 'name' => '困難だった経験',
             ],
+            [
+                'name' => 'その他',
+            ],
         ]);
     }
 }

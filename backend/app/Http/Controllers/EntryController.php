@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use \App\Models\Entry;
 use \App\Models\QuestionCategory;
 use \App\Models\Company;
+use \App\Models\Question;
 
 class EntryController extends Controller
 {
     public function index()
     {
         return view('entry.index')
-            ->with('entries', Entry::orderBy('id', 'DESC')->get());
+            ->with('entries', Entry::orderBy('deadline', 'ASC')->join('companies', 'entries.company_id', '=', 'companies.id')->get());
     }
 
     public function create()
@@ -28,16 +29,47 @@ class EntryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:20',
-            'description' => 'required'
+            'company' => 'required|max:20',
         ]);
 
-        Todo::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
+        $company_name = $request->input('company');
+        
+        $company = Company::firstOrCreate([
+            'name' => $company_name,
         ]);
+        
+        $entry = Entry::create([
+            'company_id' => $company->id,
+            'deadline' => $request->input('deadline'),
+        ]);
+        
+        for ($i = 1; $i <= $request->input('question_num'); $i++) { 
 
-        return redirect('/dashboard')->with('message', '投稿に成功しました');
+            $question = sprintf('question%d', $i);
+            $word_count = sprintf('word_count%d', $i);
+            $answer = sprintf('answer%d', $i);
+
+            $question_name = $request->input($question);
+
+            $request->validate([
+                $question => 'required',
+            ]);
+            
+            $question_category = QuestionCategory::where('name', $question_name)->firstOr(function(){
+                return QuestionCategory::where('name', 'その他')->first();
+            });
+               
+            $created = Question::create([
+                'name' => $question_name,
+                'entry_id' => $entry->id,
+                'question_category_id' => $question_category->id,
+                'word_count' => $request->input($word_count),
+                'answer' => $request->input($answer),
+            ]);
+
+        }
+
+        return redirect('/entry')->with('message', 'success');
     }
     
     public function edit($id)

@@ -12,12 +12,12 @@
         @endif -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg lg:grid grid-cols-3 gap-4">
             <a href="/entry/create" class="p-3 font-bold text-xl">ESを追加</a>
-                @if(isset($todo))
-                    @foreach ($todos as $todo)
+                @if(isset($entries))
+                    @foreach ($entries as $entry)
                     <div>
-                        <a href="/todo/{{ $todo->id }}/edit">
-                        <h3 class="my-6 text-lg">{{ $todo->title }}</h3>
-                        <p class="text-sm">{{ $todo->description }}</p>
+                        <a href="/entry/{{ $entry->id }}/edit">
+                        <h3 class="my-6 text-lg">{{ $entry->deadline }}</h3>
+                        <p class="text-sm">{{ $entry->name }}</p>
                         </a>
                     </div>
                     @endforeach
