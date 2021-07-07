@@ -1,9 +1,9 @@
 <x-input-form>
-    <form action="/entry" method="POST" enctype="multipart/form-data">
+    <form id="edit" action="/entry/{{ $entry->id }}" method="POST" enctype="multipart/form-data">
     @csrf
-
+    @method('PUT')
         <div class="my-5">
-            <x-jet-input name="company" list="companies" value="{{ old('company') }}"></x-jet-input>
+            <x-jet-input name="company" list="companies" value="{{ $entry->name }}"></x-jet-input>
             @if(isset($companies))
             <datalist id="companies">
             @foreach($companies as $company)
@@ -13,16 +13,10 @@
             @endif
         </div>
         <div class="mb-5">
-            <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d') . 'T00:00' }}" />
+            <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d', strtotime($entry->deadline)) . 'T00:00' }}" />
         </div>
 
-        @php
-            $max_question_num = 8;
-        @endphp
-        
-        <div x-data="{ currentQuestionNum: 1, questionNum: 3, maxQuestionNum: {{ $max_question_num }} }">
-
-            <input class="hidden" type="number" x-model="questionNum" name="question_num">
+        <div x-data="{ currentQuestionNum: 1 }">
             
             @if(isset($question_categories))
             <datalist id="question_categories">
@@ -38,29 +32,33 @@
                 </template>
             </datalist>
 
-            @for ($i = 1; $i <= $max_question_num; $i++)
-                <div x-show="currentQuestionNum == {{ $i }}">
-                    <div x-data="{answer: '', word_count: 0}">
+            @foreach ($questions as $index => $question)
+                @php
+                    $index++;
+                @endphp
+                <div x-show="currentQuestionNum == {{ $index }}">
+                    <div x-data="{answer: '{{ $question->answer }}', word_count: {{ $question->word_count }} }">
                         <x-entry.question-form>
                             <x-slot name="question">
-                                <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}"></x-jet-input>
+                                <x-jet-input list="question_categories" name="question{{ $index }}" value="{{ $question->name }}"></x-jet-input>
                             </x-slot>
                             <x-slot name="word_count">
-                                <x-jet-input x-model="word_count" type="number" name="word_count{{ $i }}" list="word_counts"></x-jet-input>
+                                <x-jet-input x-model="word_count" type="number" name="word_count{{ $index }}" list="word_counts"></x-jet-input>
                             </x-slot>
                             <x-slot name="answer">
                                 <textarea 
                                 x-model="answer" 
-                                name="answer{{ $i }}" 
+                                name="answer{{ $index }}" 
                                 class="w-4/5 max-w-4xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-md" 
                                 :class="answer.length > word_count ? 'bg-red-200' : ''" 
                                 rows="10"
-                                ></textarea>
+                                >
+                                </textarea>
                             </x-slot>
                         </x-entry.question-form>
                     </div>
                 </div>
-            @endfor
+            @endforeach
 
             
 
@@ -68,18 +66,19 @@
             <div class="mb-5 flex justify-center">
                 <p>設問数：</p>
                 <div>
-                    <template x-for="i in questionNum">
+                    <template x-for="i in {{ count($questions) }}">
                     <a href="#" class="shadow-md px-4" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a>
                     </template>
-                </div>
-                <div class="flex">
-                    <a href="#" class="px-4" :class="questionNum == 1 ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
-                    <a href="#" class="px-4" :class="questionNum == maxQuestionNum ? 'hidden' : ''" @click.prevent="questionNum++">+</a>
                 </div>
             </div>
         </div>
         <div class="mb-5">
-            <x-jet-button>作成</x-jet-button>
+            <x-jet-button form="edit">編集</x-jet-button>
         </div>
+    </form>
+    <form id="delete" action="/entry/{{ $entry->id }}" method="POST" onSubmit="return window.confirm('削除してよろしいですか？')">
+    @csrf
+    @method('delete')
+        <button type="submit" form="delete">削除</button>
     </form>
 </x-input-form>

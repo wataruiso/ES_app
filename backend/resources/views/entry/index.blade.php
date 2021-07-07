@@ -16,8 +16,7 @@
                     @foreach ($entries as $entry)
                     <div>
                         <a href="/entry/{{ $entry->id }}/edit">
-                        <h3 class="my-6 text-lg">{{ $entry->deadline }}</h3>
-                        <p class="text-sm">{{ $entry->name }}</p>
+                        <h3 class="my-6 text-lg">{{ $entry->name }}</h3>
                         </a>
                     </div>
                     @endforeach

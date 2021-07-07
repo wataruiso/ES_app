@@ -9,8 +9,8 @@ class TodoController extends Controller
 {
     public function index()
     {
-        return view('dashboard')
-            ->with('todos', Todo::orderBy('id', 'DESC')->get());
+        return view('todo.index')
+            ->with('todos', Todo::orderBy('deadline', 'ASC')->get());
     }
 
     public function create()
@@ -22,15 +22,18 @@ class TodoController extends Controller
     {
         $request->validate([
             'title' => 'required|max:20',
-            'description' => 'required'
+            'description' => 'required',
+            'deadline' => 'required'
         ]);
 
         Todo::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'deadline' => $request->input('deadline'),
+            'is_done' => false,
         ]);
 
-        return redirect('/dashboard')->with('message', '投稿に成功しました');
+        return redirect('/todo')->with('message', '投稿に成功しました');
     }
     
     public function edit($id)
@@ -42,21 +45,23 @@ class TodoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required'
+            'title' => 'required|max:20',
+            'description' => 'required',
+            'deadline' => 'required'
         ]);
 
         Todo::find($id)->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
+            'deadline' => $request->input('deadline'),
         ]);
 
-        return redirect('/dashboard')->with('message', '編集に成功しました');
+        return redirect('/todo')->with('message', '編集に成功しました');
     }
 
     public function delete($id)
     {
         Todo::find($id)->delete();
-        return redirect('/dashboard')->with('message', 'タスクを削除しました');
+        return redirect('/todo')->with('message', 'タスクを削除しました');
     }
 }
