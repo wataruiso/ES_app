@@ -10,7 +10,7 @@ class TodoController extends Controller
     public function index()
     {
         return view('todo.index')
-            ->with('todos', Todo::orderBy('deadline', 'ASC')->get());
+            ->with('todos', Todo::where('is_done', false)->orderBy('deadline', 'ASC')->get());
     }
 
     public function create()
@@ -50,10 +50,13 @@ class TodoController extends Controller
             'deadline' => 'required'
         ]);
 
+        $is_done = $request->input('is_done') == 'on' ? true : false;
+
         Todo::find($id)->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'deadline' => $request->input('deadline'),
+            'is_done' => $is_done,
         ]);
 
         return redirect('/todo')->with('message', '編集に成功しました');
@@ -63,5 +66,19 @@ class TodoController extends Controller
     {
         Todo::find($id)->delete();
         return redirect('/todo')->with('message', 'タスクを削除しました');
+    }
+
+    public function complete($id)
+    {
+        Todo::find($id)->update([
+            'is_done' => true
+        ]);
+        return redirect('/todo')->with('message', 'タスクを完了しました');
+    }
+
+    public function getCompleteTodos()
+    {
+        return view('todo.index')
+            ->with('todos', Todo::where('is_done', true)->get());
     }
 }

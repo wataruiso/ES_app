@@ -14,7 +14,10 @@
                 name="description" 
                 class="w-4/5 max-w-4xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-md"
                 rows="10">{{ $todo->description }}</textarea>
-        </div>      
+        </div>  
+        <div class="mb-5 text-sm">
+            <input type="checkbox" name="is_done" checked="{{ $todo->is_done ? 'checked' : '' }}">完了済み
+        </div>    
         <div>
             <x-jet-button form="edit">編集</x-jet-button>
         </div>
