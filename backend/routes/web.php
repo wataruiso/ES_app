@@ -7,6 +7,9 @@ use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\EntryController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\CompanyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +46,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::delete('/{id}', [TodoController::class, 'delete']);
         Route::put('/{id}/complete', [TodoController::class, 'complete']);
         Route::get('/complete_todos', [TodoController::class, 'getCompleteTodos']);
+        Route::get('/{id}/edit_entry', [TodoController::class, 'editEntry']);
 
     });
     
@@ -55,5 +59,21 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::put('/{id}', [EntryController::class, 'update']);
         Route::delete('/{id}', [EntryController::class, 'delete']);
         
+    });
+
+    Route::prefix('question')->group(function(){
+
+        Route::get('/', [QuestionController::class, 'index'])->name('question');
+
+    });
+    Route::prefix('template')->group(function(){
+
+        Route::get('/', [TemplateController::class, 'index'])->name('template');
+
+    });
+    Route::prefix('company')->group(function(){
+
+        Route::get('/', [CompanyController::class, 'index'])->name('company');
+
     });
 });

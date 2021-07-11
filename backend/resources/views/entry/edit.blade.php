@@ -12,11 +12,14 @@
             </datalist>
             @endif
         </div>
+        @php 
+            $deadline = Illuminate\Support\Carbon::parse($entry->deadline)->format('Y-m-d\TH:i');
+        @endphp 
         <div class="mb-5">
-            <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d', strtotime($entry->deadline)) . 'T00:00' }}" />
+            <input name="deadline" type="datetime-local" step="3600" value="{{ $deadline }}" />
         </div>
 
-        <div x-data="{ currentQuestionNum: 1 }">
+        <div x-data="{ currentQuestionNum: {{ isset($question_num) ? $question_num : 1 }} }">
             
             @if(isset($question_categories))
             <datalist id="question_categories">
@@ -67,7 +70,7 @@
                 <p>設問数：</p>
                 <div>
                     <template x-for="i in {{ count($questions) }}">
-                    <a href="#" class="shadow-md px-4" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a>
+                    <a href="#" class="shadow-md px-4 rounded-sm" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a>
                     </template>
                 </div>
             </div>

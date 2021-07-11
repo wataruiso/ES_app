@@ -16,6 +16,8 @@ class QuestionCategories extends Migration
         Schema::create('question_categories', function(Blueprint $table) {
             $table->increments('id');
             $table->char('name', 20)->unique();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

@@ -16,7 +16,7 @@ class Entries extends Migration
         Schema::create('entries', function(Blueprint $table) {
             $table->increments('id');
             $table->foreignId('company_id');
-            $table->date('deadline');
+            $table->dateTime('deadline');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

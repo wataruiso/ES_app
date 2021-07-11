@@ -9,6 +9,7 @@ use \App\Models\QuestionCategory;
 use \App\Models\Company;
 use \App\Models\Question;
 use \App\Models\Todo;
+use \App\Models\Template;
 use Illuminate\Validation\Rule;
 
 class EntryController extends Controller
@@ -18,13 +19,14 @@ class EntryController extends Controller
         return view('entry.index')
             ->with('entries', DB::table('entries')
                                 ->join('companies', 'entries.company_id', '=', 'companies.id')
-                                ->get());
+                                ->get()
+            );
     }
 
     public function create()
     {
         $companies = Company::all();
-        $question_categories = QuestionCategory::all();
+        $question_categories = QuestionCategory::where('name', '!=', 'その他')->get();
         return view('entry.create')->with([
             "companies" => $companies,
             "question_categories" => $question_categories,
@@ -60,6 +62,7 @@ class EntryController extends Controller
 
             $question_name = $request->input($question);
             $word_count_value = $request->input($word_count);
+            $answer = $request->input($answer);
 
             $description_content .= sprintf('%s: %d字', $question_name, $word_count_value) . "\n";
 
@@ -76,17 +79,27 @@ class EntryController extends Controller
             Question::create([
                 'name' => $question_name,
                 'entry_id' => $entry->id,
+                'question_num' => $i,
                 'question_category_id' => $question_category->id,
                 'word_count' => $word_count_value,
-                'answer' => $request->input($answer),
+                'answer' => $answer,
             ]);
+
+            $question_name_for_template = $question_name . '-' . $word_count_value;
+
+            $template = Template::where('name', $question_name_for_template)->first();
+            if($template) {
+                $template->update([
+                    'answer' => $answer,
+                ]);
+            }
 
         }
 
         Todo::create([
-            'title' => $company_name . 'ES',
+            'title' => $company_name . ' ES',
             'description' => $description_content,
-            'deadline' => $deadline,
+            'time_to_start' => $deadline,
             'is_done' => false,
             'entry_id' => $entry->id,
         ]);
@@ -94,7 +107,7 @@ class EntryController extends Controller
         return redirect('/entry')->with('message', 'success');
     }
     
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entry = DB::table('entries')
         ->where('entries.id', $id)
@@ -102,7 +115,7 @@ class EntryController extends Controller
         ->first();
         $questions = Entry::find($id)->questions;
         $companies = Company::all();
-        $question_categories = QuestionCategory::all();
+        $question_categories = QuestionCategory::where('name', '!=', 'その他')->get();
         
 
         return view('entry.edit')->with([
@@ -110,6 +123,7 @@ class EntryController extends Controller
             'questions' => $questions,
             "companies" => $companies,
             "question_categories" => $question_categories,
+            "question_num" => $request->question_num,
         ]);
     }
 
@@ -117,7 +131,6 @@ class EntryController extends Controller
     {
         $entry = Entry::find($id);
         $company_old = Company::where('id', $entry->company_id)->first();
-
         
         $request->validate([
             'company' => [
@@ -128,16 +141,18 @@ class EntryController extends Controller
         ]);
         
         $company_name = $request->input('company');
+        $deadline = $request->input('deadline');
         
         $company_old->update([
             'name' => $company_name,
         ]);
         
         $entry->update([
-            'deadline' => $request->input('deadline'),
+            'deadline' => $deadline,
         ]);
 
         $questions = $entry->questions;
+        $description_content = sprintf('設問数:%d', count($questions)) . "\n";
 
         foreach ($questions as $index => $question) { 
             $index++;
@@ -146,6 +161,9 @@ class EntryController extends Controller
             $answer = sprintf('answer%d', $index);
 
             $question_name = $request->input($question_form_name);
+            $word_count_value = $request->input($word_count);
+
+            $description_content .= sprintf('%s: %d字', $question_name, $word_count_value) . "\n";
 
             $request->validate([
                 $question_form_name => 'required',
@@ -160,11 +178,17 @@ class EntryController extends Controller
             $question->update([
                 'name' => $question_name,
                 'question_category_id' => $question_category->id,
-                'word_count' => $request->input($word_count),
+                'word_count' => $word_count_value,
                 'answer' => $request->input($answer),
             ]);
 
         }
+
+        Todo::where('entry_id', $id)->update([
+            'title' => $company_name . ' ES',
+            'description' => $description_content,
+            'time_to_start' => $deadline,
+        ]);
 
         return redirect('/entry')->with('message', '編集に成功しました');
     }

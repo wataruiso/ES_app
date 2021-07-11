@@ -4,8 +4,12 @@
         <div class="mb-5">
             <x-jet-input name="title" value="{{ old('title') }}"></x-jet-input>
         </div>
-        <div class="mb-5">
-            <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d') . 'T00:00' }}" />
+        <div x-data="{time_to_end: '{{ date('Y-m-d') . 'T00:00' }}' }" class="mb-5 flex items-center">
+            <input name="time_to_start" type="datetime-local" step="3600" value="{{ date('Y-m-d') . 'T00:00' }}" :max="time_to_end" />
+            <div>
+                <span>~</span>
+                <input name="time_to_end" type="datetime-local" step="3600" x-model="time_to_end" />
+            </div>
         </div>
         <div class="mb-5">
             <textarea 

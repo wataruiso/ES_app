@@ -9,6 +9,4 @@ class QuestionCategory extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    const UPDATED_AT = null;
-    const CREATED_AT = null;
 }

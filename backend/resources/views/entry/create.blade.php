@@ -3,7 +3,8 @@
     @csrf
 
         <div class="my-5">
-            <x-jet-input name="company" list="companies" value="{{ old('company') }}"></x-jet-input>
+            <label for="company">企業名</label>
+            <x-jet-input name="company" list="companies" value="{{ old('company') }}" required></x-jet-input>
             @if(isset($companies))
             <datalist id="companies">
             @foreach($companies as $company)
@@ -13,6 +14,7 @@
             @endif
         </div>
         <div class="mb-5">
+            <label for="deadline">締切日時</label>
             <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d') . 'T00:00' }}" />
         </div>
 
@@ -20,7 +22,7 @@
             $max_question_num = 8;
         @endphp
         
-        <div x-data="{ currentQuestionNum: 1, questionNum: 3, maxQuestionNum: {{ $max_question_num }} }">
+        <div x-data="{ currentQuestionNum: 1, questionNum: 3, maxQuestionNum: {{ $max_question_num }} }" class="pt-10">
 
             <input class="hidden" type="number" x-model="questionNum" name="question_num">
             
@@ -43,7 +45,9 @@
                     <div x-data="{answer: '', word_count: 0}">
                         <x-entry.question-form>
                             <x-slot name="question">
-                                <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}"></x-jet-input>
+                                <span>{{$i}}問目</span>
+                                <label for="question">設問タイトル</label>
+                                <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}" required></x-jet-input>
                             </x-slot>
                             <x-slot name="word_count">
                                 <x-jet-input x-model="word_count" type="number" name="word_count{{ $i }}" list="word_counts"></x-jet-input>
@@ -65,16 +69,20 @@
             
 
 
-            <div class="mb-5 flex justify-center">
-                <p>設問数：</p>
-                <div>
+            <div class="mb-5 flex justify-center mx-auto">
+                <p class="">設問数：</p>
+                <div class="grid grid-cols-{{ $max_question_num }} px-5">
                     <template x-for="i in questionNum">
-                    <a href="#" class="shadow-md px-4" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a>
+                    <div><a href="#" class="shadow-md px-4 rounded-sm" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a></div>
                     </template>
                 </div>
-                <div class="flex">
-                    <a href="#" class="px-4" :class="questionNum == 1 ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
-                    <a href="#" class="px-4" :class="questionNum == maxQuestionNum ? 'hidden' : ''" @click.prevent="questionNum++">+</a>
+                <div class="grid grid-cols-2">
+                    <div>
+                        <a href="#" class="px-4" :class="questionNum == 1 ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
+                    </div>
+                    <div>
+                        <a href="#" class="px-4" :class="questionNum == maxQuestionNum ? 'hidden' : ''" @click.prevent="questionNum++">+</a>
+                    </div>
                 </div>
             </div>
         </div>
