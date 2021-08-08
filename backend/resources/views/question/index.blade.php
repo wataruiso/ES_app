@@ -15,6 +15,7 @@
                     @sortablelink('name', '名前')
                     @sortablelink('word_count', '文字数')
                     @sortablelink('updated_at', '更新日')
+                    @sortablelink('company_name', '会社名')
                 </div>
                 @if(isset($questions))
                 @foreach ($questions as $question)
@@ -23,7 +24,8 @@
                         <div>
                             <div class="mb-2 flex items-center">
                                 <h3 class="pr-4 text-lg">{{ $question->name }}</h3>
-                                <span>{{ $question->word_count }}</span>
+                                <span class="pr-4">{{ $question->word_count }}</span>
+                                <span>{{ $question->company_name }}</span>
                             </div>
                             <p x-show="open" class="text-sm">{{ $question->answer }}</p>                                                                                                                                                                                                             
                         </div>

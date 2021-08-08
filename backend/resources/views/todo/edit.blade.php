@@ -28,7 +28,7 @@
             <input type="checkbox" name="is_done" {{ $todo->is_done ? 'checked' : '' }}>
             <span class="pl-3">完了済み</span>
         </div>    
-        <div>
+        <div class="mb-5">
             <x-jet-button form="edit">編集</x-jet-button>
         </div>
     </form>
@@ -36,7 +36,7 @@
     <form id="delete" action="/todo/{{ $todo->id }}" method="POST" onSubmit="return window.confirm('削除してよろしいですか？')">
     @csrf
     @method('delete')
-        <button type="submit" form="delete">削除</button>
+        <x-jet-danger-button type="submit" form="delete">削除</x-jet-danger-button>
     </form>
 
 </x-input-form>

@@ -13,6 +13,7 @@ class Question extends Model
 
     use Sortable;
     public $sortable = ['name', 'word_count', 'updated_at'];
+    public $sortableAs = ['company_name'];
 
     public function entry()
     {
@@ -23,4 +24,11 @@ class Question extends Model
     {
         return "{$this->name}-{$this->word_count}";
     }
+
+    public function companyNameSortable($query, $direction)
+    {
+        return $query->orderBy('company_name', $direction);
+                  
+    }
+
 }

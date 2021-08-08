@@ -22,12 +22,14 @@
                             <div class="mb-2 flex items-center">
                                 <h3 class="pr-4 text-lg">{{ $template->name }}</h3>
                             </div>
-                            <p x-show="open" class="text-sm">{{ $template->answer }}</p>                                                                                                                                                                                                             
+                            <x-forms.textarea x-ref="answer" x-show="open" class="text-sm" readonly>{{ $template->answer }}</x-forms.textarea>                                                                                                                                                                                                             
                         </div>
                     </a>
                     <div class="grid grid-cols-3">
                         <div class="flex items-center justify-center">
-                    
+                            <a href="#" @click.prevent="$refs.answer.select();document.execCommand('copy')">
+                                <x-logos.clipboard-copy />
+                            </a>
                         </div>
                         <div class="flex items-center justify-center">
                            

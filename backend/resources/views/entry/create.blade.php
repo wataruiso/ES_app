@@ -41,29 +41,31 @@
             </datalist>
 
             @for ($i = 1; $i <= $max_question_num; $i++)
-                <div x-show="currentQuestionNum == {{ $i }}">
-                    <div x-data="{answer: '', word_count: 0}">
-                        <x-entry.question-form>
-                            <x-slot name="question">
-                                <span>{{$i}}問目</span>
-                                <label for="question">設問タイトル</label>
-                                <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}" required></x-jet-input>
-                            </x-slot>
-                            <x-slot name="word_count">
-                                <x-jet-input x-model="word_count" type="number" name="word_count{{ $i }}" list="word_counts"></x-jet-input>
-                            </x-slot>
-                            <x-slot name="answer">
-                                <textarea 
-                                x-model="answer" 
-                                name="answer{{ $i }}" 
-                                class="w-4/5 max-w-4xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-md" 
-                                :class="answer.length > word_count ? 'bg-red-200' : ''" 
-                                rows="10"
-                                ></textarea>
-                            </x-slot>
-                        </x-entry.question-form>
+                <template x-if="questionNum >= {{ $i }}">
+                    <div x-show="currentQuestionNum == {{ $i }}">
+                        <div x-data="{answer: '', word_count: 0}">
+                            <x-entry.question-form>
+                                <x-slot name="question">
+                                    <span>{{$i}}問目</span>
+                                    <label for="question">設問タイトル</label>
+                                    <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}" required></x-jet-input>
+                                </x-slot>
+                                <x-slot name="word_count">
+                                    <x-jet-input x-model="word_count" type="number" name="word_count{{ $i }}" list="word_counts"></x-jet-input>
+                                </x-slot>
+                                <x-slot name="answer">
+                                    <textarea 
+                                    x-model="answer" 
+                                    name="answer{{ $i }}" 
+                                    class="w-4/5 max-w-4xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-md" 
+                                    :class="answer.length > word_count ? 'bg-red-200' : ''" 
+                                    rows="10"
+                                    ></textarea>
+                                </x-slot>
+                            </x-entry.question-form>
+                        </div>
                     </div>
-                </div>
+                </template>
             @endfor
 
             
@@ -76,13 +78,14 @@
                     <div><a href="#" class="shadow-md px-4 rounded-sm" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a></div>
                     </template>
                 </div>
-                <div class="grid grid-cols-2">
+                <div class="grid grid-cols-3 min-w-32">
                     <div>
-                        <a href="#" class="px-4" :class="questionNum == 1 ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
+                        <a href="#" class="px-4" :class="questionNum == 1 || questionNum == currentQuestionNum ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
                     </div>
                     <div>
                         <a href="#" class="px-4" :class="questionNum == maxQuestionNum ? 'hidden' : ''" @click.prevent="questionNum++">+</a>
                     </div>
+                    <div></div>
                 </div>
             </div>
         </div>

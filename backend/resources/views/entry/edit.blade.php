@@ -82,6 +82,6 @@
     <form id="delete" action="/entry/{{ $entry->id }}" method="POST" onSubmit="return window.confirm('削除してよろしいですか？')">
     @csrf
     @method('delete')
-        <button type="submit" form="delete">削除</button>
+        <x-jet-danger-button type="submit" form="delete">削除</x-jet-danger-button>
     </form>
 </x-input-form>

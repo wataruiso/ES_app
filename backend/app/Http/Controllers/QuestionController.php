@@ -11,13 +11,13 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        // $questions = DB::table('questions')
-        //                     ->join('entries', 'questions.entry_id', '=', 'entries.id')
-        //                     ->join('companies', 'entries.company_id', '=', 'companies.id')
-        //                     ->select('questions.*', 'companies.name')
-        //                     ->get();
-
+        $questions = Question::select(['questions.*', 'companies.name as company_name'])
+                                ->join('entries', 'questions.entry_id', '=', 'entries.id')
+                                ->join('companies', 'entries.company_id', '=', 'companies.id')
+                                ->sortable('company_name')
+                                ->paginate(10);
+                          
         return view('question.index')
-            ->with('questions', Question::sortable()->paginate(10));
+            ->with('questions', $questions);
     }
 }
