@@ -17,6 +17,7 @@ class Entries extends Migration
             $table->increments('id');
             $table->foreignId('company_id');
             $table->dateTime('deadline');
+            $table->integer('question_num');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

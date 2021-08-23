@@ -1,0 +1,1 @@
+<span class="bg-yellow-500 rounded-md text-white px-3 py-1 text-sm">必須</span>

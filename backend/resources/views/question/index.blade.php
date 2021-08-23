@@ -11,11 +11,14 @@
             <p>{{ session()->get('message') }}</p>
         @endif -->
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="border-b-2 p-3 flex justify-between">
-                    @sortablelink('name', '名前')
-                    @sortablelink('word_count', '文字数')
-                    @sortablelink('updated_at', '更新日')
-                    @sortablelink('company_name', '会社名')
+                <div class="border-b-2 p-3 flex">
+                    <p class="flex justify-center items-center">
+                        <x-logos.sort-descending />
+                    </p>
+                    <p class="pl-3">@sortablelink('name', '名前')</p>
+                    <p class="pl-3">@sortablelink('word_count', '文字数')</p>
+                    <p class="pl-3">@sortablelink('updated_at', '更新日')</p>
+                    <p class="pl-3">@sortablelink('company_name', '会社名')</p>
                 </div>
                 @if(isset($questions))
                 @foreach ($questions as $question)
@@ -25,7 +28,8 @@
                             <div class="mb-2 flex items-center">
                                 <h3 class="pr-4 text-lg">{{ $question->name }}</h3>
                                 <span class="pr-4">{{ $question->word_count }}</span>
-                                <span>{{ $question->company_name }}</span>
+                                <span class="pr-4">{{ $question->company_name }}</span>
+                                <span>{{ $question->updated_at->diffForHumans() }}</span>
                             </div>
                             <p x-show="open" class="text-sm">{{ $question->answer }}</p>                                                                                                                                                                                                             
                         </div>

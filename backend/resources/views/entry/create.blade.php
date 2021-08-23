@@ -1,96 +1,153 @@
 <x-input-form>
     <form action="/entry" method="POST" enctype="multipart/form-data">
     @csrf
-
-        <div class="my-5">
-            <label for="company">企業名</label>
-            <x-jet-input name="company" list="companies" value="{{ old('company') }}" required></x-jet-input>
-            @if(isset($companies))
-            <datalist id="companies">
-            @foreach($companies as $company)
-                <option value="{{ $company->name }}">
-            @endforeach
-            </datalist>
-            @endif
-        </div>
-        <div class="mb-5">
-            <label for="deadline">締切日時</label>
-            <input name="deadline" type="datetime-local" step="3600" value="{{ date('Y-m-d') . 'T00:00' }}" />
-        </div>
-
+        
         @php
             $max_question_num = 8;
         @endphp
-        
-        <div x-data="{ currentQuestionNum: 1, questionNum: 3, maxQuestionNum: {{ $max_question_num }} }" class="pt-10">
 
-            <input class="hidden" type="number" x-model="questionNum" name="question_num">
-            
-            @if(isset($question_categories))
-            <datalist id="question_categories">
-            @foreach($question_categories as $question_category)
-                <option value="{{ $question_category->name }}">
-            @endforeach
-            </datalist>
-            @endif
-
-            <datalist id="word_counts">
-                <template x-for="i in 10">
-                    <option :value="i * 100">
-                </template>
-            </datalist>
-
-            @for ($i = 1; $i <= $max_question_num; $i++)
-                <template x-if="questionNum >= {{ $i }}">
-                    <div x-show="currentQuestionNum == {{ $i }}">
-                        <div x-data="{answer: '', word_count: 0}">
-                            <x-entry.question-form>
-                                <x-slot name="question">
-                                    <span>{{$i}}問目</span>
-                                    <label for="question">設問タイトル</label>
-                                    <x-jet-input list="question_categories" name="question{{ $i }}" value="{{ old('question' . $i) }}" required></x-jet-input>
-                                </x-slot>
-                                <x-slot name="word_count">
-                                    <x-jet-input x-model="word_count" type="number" name="word_count{{ $i }}" list="word_counts"></x-jet-input>
-                                </x-slot>
-                                <x-slot name="answer">
-                                    <textarea 
-                                    x-model="answer" 
-                                    name="answer{{ $i }}" 
-                                    class="w-4/5 max-w-4xl border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-md" 
-                                    :class="answer.length > word_count ? 'bg-red-200' : ''" 
-                                    rows="10"
-                                    ></textarea>
-                                </x-slot>
-                            </x-entry.question-form>
-                        </div>
-                    </div>
-                </template>
-            @endfor
-
-            
-
-
-            <div class="mb-5 flex justify-center mx-auto">
-                <p class="">設問数：</p>
-                <div class="grid grid-cols-{{ $max_question_num }} px-5">
-                    <template x-for="i in questionNum">
-                    <div><a href="#" class="shadow-md px-4 rounded-sm" :class="currentQuestionNum == i ? 'bg-purple-400' : ''" @click.prevent="currentQuestionNum = i" x-text="i"></a></div>
-                    </template>
-                </div>
-                <div class="grid grid-cols-3 min-w-32">
-                    <div>
-                        <a href="#" class="px-4" :class="questionNum == 1 || questionNum == currentQuestionNum ? 'hidden' : ''" @click.prevent="questionNum--">-</a>
-                    </div>
-                    <div>
-                        <a href="#" class="px-4" :class="questionNum == maxQuestionNum ? 'hidden' : ''" @click.prevent="questionNum++">+</a>
-                    </div>
-                    <div></div>
+        <div x-data="{
+            maxQuestionNum: {{ $max_question_num }},
+            company: '',
+            deadline: '{{ date('Y-m-d') . 'T00:00' }}',
+            questionNum: 1, 
+            questions: [
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+                {
+                    title: '',
+                    word_count: null,
+                },
+            ],
+            get ableSubmit() {
+                if(!(this.company && this.deadline && this.questionNum)) return false
+                else if(this.questionNum == 1) return this.questionIsFilled(0)
+                else {
+                    for(let k = 0; k < this.questionNum; k++) {
+                        if(!this.questionIsFilled(k)) return false
+                    }
+                    return true
+                }
+            },
+            questionIsFilled(index) {
+                return this.questions[index].title && this.questions[index].word_count
+            }
+         }"> 
+            <div class="my-5">
+                <label for="company">企業名</label>
+                <div class="pt-1">
+                    <x-jet-input name="company" type="text" list="companies" x-model="company" required></x-jet-input>
+                    @if(isset($companies))
+                    <datalist id="companies">
+                    @foreach($companies as $company)
+                        <option value="{{ $company->name }}">
+                    @endforeach
+                    </datalist>
+                    @endif
                 </div>
             </div>
-        </div>
-        <div class="mb-5">
-            <x-jet-button>作成</x-jet-button>
+            <div class="mb-5">
+                <label for="deadline">締切日時</label>
+                <div class="pt-1">
+                    <x-jet-input name="deadline" type="datetime-local" step="3600" x-model="deadline" />
+                </div>
+            </div>
+            <div class="mb-5">
+                <label for="question_num">設問数</label>
+                <div class="pt-1">
+                    <x-forms.select x-model="questionNum" name="question_num">
+                        <template x-for="i in {{ $max_question_num }}">
+                            <option :value="i" x-text="i">
+                        </template>
+                    </x-forms.select>
+                </div>
+            </div>
+            
+            <div class="pt-10">
+                
+                @if(isset($question_categories))
+                <datalist id="question_categories">
+                @foreach($question_categories as $question_category)
+                    <option value="{{ $question_category->name }}">
+                @endforeach
+                </datalist>
+                @endif
+    
+                <datalist id="word_counts">
+                    <template x-for="j in 10">
+                        <option :value="j * 100">
+                    </template>
+                </datalist>
+    
+                @php
+                    $top_index = 1;
+                @endphp
+
+                <div>
+                    <x-entry.question-form :editting="false" index="{{ $top_index }}">
+                        <x-slot name="question_input">
+                            <x-jet-input type="text" list="question_categories" name="question{{ $top_index }}" x-model="questions[{{ $top_index - 1 }}].title" class="block w-full"></x-jet-input>
+                        </x-slot>
+                        <x-slot name="word_count_input">
+                            <x-forms.select name="word_count{{ $top_index }}" x-model="questions[{{ $top_index - 1 }}].word_count">
+                                <option value="" x-text="'-'"></option>
+                                <template x-for="j in 10">
+                                    <option :value="j * 100" x-text="j * 100"></option>
+                                </template>
+                                <option :value="9999" x-text="'制限なし'"></option>
+                            </x-forms.select>
+                        </x-slot>
+                    </x-entry.question-form>
+                </div>
+                
+                @for ($i = 2; $i <= $max_question_num; $i++)
+                    <div x-show="questionNum >= {{ $i }}">
+                        <x-entry.question-form :editting="false" index="{{ $i }}">
+                            <x-slot name="question_input">
+                                <x-jet-input type="text" list="question_categories" name="question{{ $i }}" x-model="questions[{{ $i - 1 }}].title" class="block w-full"></x-jet-input>
+                            </x-slot>
+                            <x-slot name="word_count_input">
+                                <x-forms.select name="word_count{{ $i }}" x-model="questions[{{ $i - 1 }}].word_count">
+                                    <option value="" x-text="'-'"></option>
+                                    <template x-for="j in 10">
+                                        <option :value="j * 100" x-text="j * 100"></option>
+                                    </template>
+                                    <option :value="9999" x-text="'制限なし'"></option>
+                                </x-forms.select>
+                            </x-slot>
+                        </x-entry.question-form>
+                    </div>
+                @endfor
+            </div>
+            <div class="mb-5" x-show="ableSubmit">
+                <x-jet-button>作成</x-jet-button>
+            </div>
         </div>
     </form>
 </x-input-form>

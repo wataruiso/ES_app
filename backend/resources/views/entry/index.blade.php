@@ -10,13 +10,15 @@
         <!-- @if (session()->has('message'))
             <p>{{ session()->get('message') }}</p>
         @endif -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg lg:grid grid-cols-3 gap-4">
-            <a href="/entry/create" class="p-3 font-bold text-xl">ESを追加</a>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="border-b-2 p-3 flex justify-between">
+                    <a href="/entry/create" class="block font-bold text-xl">ESを追加</a>
+                </div>
                 @if(isset($entries))
                     @foreach ($entries as $entry)
-                    <div>
+                    <div class="border-b-2 py-2 px-4">
                         <a href="/entry/{{ $entry->id }}/edit">
-                        <h3 class="my-6 text-lg">{{ $entry->name }}</h3>
+                            <h3 class="my-2 text-lg">{{ $entry->name }}</h3>
                         </a>
                     </div>
                     @endforeach

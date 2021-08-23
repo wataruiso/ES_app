@@ -50,6 +50,7 @@ class EntryController extends Controller
         $entry = Entry::create([
             'company_id' => $company->id,
             'deadline' => $deadline,
+            'question_num' => $question_num,
         ]);
 
         $description_content = sprintf('設問数:%d', $question_num) . "\n";
@@ -58,11 +59,9 @@ class EntryController extends Controller
 
             $question = sprintf('question%d', $i);
             $word_count = sprintf('word_count%d', $i);
-            $answer = sprintf('answer%d', $i);
 
             $question_name = $request->input($question);
             $word_count_value = $request->input($word_count);
-            $answer = $request->input($answer);
 
             $description_content .= sprintf('%s: %d字', $question_name, $word_count_value) . "\n";
 
@@ -70,7 +69,6 @@ class EntryController extends Controller
                 $question => 'required',
                 $word_count => 'required|gt:0'
             ]);
-
             
             $question_category = QuestionCategory::where('name', $question_name)->firstOr(function(){
                 return QuestionCategory::where('name', 'その他')->first();
@@ -82,17 +80,7 @@ class EntryController extends Controller
                 'question_num' => $i,
                 'question_category_id' => $question_category->id,
                 'word_count' => $word_count_value,
-                'answer' => $answer,
             ]);
-
-            $question_name_for_template = $question_name . '-' . $word_count_value;
-
-            $template = Template::where('name', $question_name_for_template)->first();
-            if($template) {
-                $template->update([
-                    'answer' => $answer,
-                ]);
-            }
 
         }
 
@@ -123,7 +111,6 @@ class EntryController extends Controller
             'questions' => $questions,
             "companies" => $companies,
             "question_categories" => $question_categories,
-            "question_num" => $request->question_num,
         ]);
     }
 
@@ -162,6 +149,7 @@ class EntryController extends Controller
 
             $question_name = $request->input($question_form_name);
             $word_count_value = $request->input($word_count);
+            $answer_value = $request->input($answer);
 
             $description_content .= sprintf('%s: %d字', $question_name, $word_count_value) . "\n";
 
@@ -169,7 +157,6 @@ class EntryController extends Controller
                 $question_form_name => 'required',
                 $word_count => 'required|gt:0'
             ]);
-
             
             $question_category = QuestionCategory::where('name', $question_name)->firstOr(function(){
                 return QuestionCategory::where('name', 'その他')->first();
@@ -179,8 +166,17 @@ class EntryController extends Controller
                 'name' => $question_name,
                 'question_category_id' => $question_category->id,
                 'word_count' => $word_count_value,
-                'answer' => $request->input($answer),
+                'answer' => $answer_value,
             ]);
+
+            $question_name_for_template = $question_name . '-' . $word_count_value;
+
+            $template = Template::where('name', $question_name_for_template)->first();
+            if($template) {
+                $template->update([
+                    'answer' => $answer_value,
+                ]);
+            }
 
         }
 
