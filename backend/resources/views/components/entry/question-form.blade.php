@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="pt-5">
-                {{ $template_insert_btn }}
+                {{ $template_insert_btn　?? '' }}
             </div>
         </div>
         {{ $answer ?? '' }}

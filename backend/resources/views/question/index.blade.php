@@ -27,7 +27,7 @@
                         <div>
                             <div class="mb-2 flex items-center">
                                 <h3 class="pr-4 text-lg">{{ $question->name }}</h3>
-                                <span class="pr-4">{{ $question->word_count }}</span>
+                                <span class="pr-4">{{ $question->word_count }}字</span>
                                 <span class="pr-4">{{ $question->company_name }}</span>
                                 <span>{{ $question->updated_at->diffForHumans() }}</span>
                             </div>

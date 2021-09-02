@@ -10,19 +10,7 @@
         <!-- @if (session()->has('message'))
             <p>{{ session()->get('message') }}</p>
         @endif -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" x-data="{
-                copyToClipboard(text){
-                    const pre = document.createElement('pre');
-                    pre.style.webkitUserSelect = 'auto';
-                    pre.style.userSelect = 'auto';
-                    pre.textContent = text;
-                    document.body.appendChild(pre);
-                    document.getSelection().selectAllChildren(pre);
-                    const result = document.execCommand('copy');
-                    document.body.removeChild(pre);
-                    return result;
-                  }
-            }">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @if(isset($templates))
                 @foreach ($templates as $index => $template)
                 <div class="border-b-2 py-2 px-4" x-data="{

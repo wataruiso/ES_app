@@ -1,5 +1,5 @@
 <x-input-form>
-    <form action="/entry" method="POST" enctype="multipart/form-data">
+    <form action="/entry" method="POST" enctype="multipart/form-data" onSubmit="return window.confirm('ESを作成します。よろしいですか？\n※設問数の変更は出来ません')">
     @csrf
         
         @php

@@ -101,7 +101,7 @@
 
         </div>
         <div class="mb-5">
-            <x-jet-button form="edit">編集</x-jet-button>
+            <x-jet-button form="edit">保存</x-jet-button>
         </div>
     </form>
     <form id="delete" action="/entry/{{ $entry->id }}" method="POST" onSubmit="return window.confirm('削除してよろしいですか？')">
