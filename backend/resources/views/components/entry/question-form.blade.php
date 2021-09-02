@@ -20,17 +20,22 @@
     </div>
 </div>
 <template x-if="'{{ $editting }}'">
-    <div class="mb-5 flex">
-        <div class="pr-5">
-            <div class="flex flex-col py-5">
+    <div class="mb-5 flex justify-between w-4/5">
+        <div class="pr-8">
+            <div class="pt-5">
                 <span x-text="'現在の文字数：' + answer.length"></span>
             </div>
-            <div class="text-sm">
+            <div class="pt-5">
                 <a href="#" @click.prevent="answer = answer.replace(/\s+/g, '');" class="pr-3">空白を削除</a>
+            </div>
+            <div class="pt-5">
                 <a href="#" @click.prevent="answer = answer.replace(/[A-Za-z0-9]/g, function(s) {
                     return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
                     });">全角に変換
                 </a>
+            </div>
+            <div class="pt-5">
+                {{ $template_insert_btn }}
             </div>
         </div>
         {{ $answer ?? '' }}

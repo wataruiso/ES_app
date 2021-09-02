@@ -103,6 +103,7 @@ class EntryController extends Controller
         ->first();
         $questions = Entry::find($id)->questions;
         $companies = Company::all();
+        $templates = Template::where('answer', '!=', 'null')->get();
         $question_categories = QuestionCategory::where('name', '!=', 'その他')->get();
         
 
@@ -110,6 +111,7 @@ class EntryController extends Controller
             'entry' => $entry,
             'questions' => $questions,
             "companies" => $companies,
+            "templates" => $templates,
             "question_categories" => $question_categories,
         ]);
     }

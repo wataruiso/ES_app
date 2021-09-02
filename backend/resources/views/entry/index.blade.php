@@ -14,7 +14,7 @@
                 <div class="border-b-2 p-3 flex justify-between">
                     <a href="/entry/create" class="block font-bold text-xl">ESを追加</a>
                 </div>
-                @if(isset($entries))
+                @if(isset($entries) && count($entries))
                     @foreach ($entries as $entry)
                     <div class="border-b-2 py-2 px-4">
                         <a href="/entry/{{ $entry->id }}/edit">
@@ -22,6 +22,10 @@
                         </a>
                     </div>
                     @endforeach
+                @else
+                <div class="py-20 px-4 text-center">
+                    <h1 class="text-xl">ESがありません</h1>
+                </div>
                 @endif
             </div>
         </div>

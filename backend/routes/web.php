@@ -33,8 +33,6 @@ Route::prefix('oauth/{provider}')->where(['provider' => '(line|twitter|facebook|
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
     
     Route::prefix('todo')->group(function(){
         
@@ -45,7 +43,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::put('/{id}', [TodoController::class, 'update']);
         Route::delete('/{id}', [TodoController::class, 'delete']);
         Route::put('/{id}/complete', [TodoController::class, 'complete']);
-        Route::get('/complete_todos', [TodoController::class, 'getCompleteTodos']);
+        Route::get('/complete_todos', [TodoController::class, 'getCompleteTodos'])->name('todo/complete_todos');
         Route::get('/{id}/edit_entry', [TodoController::class, 'editEntry']);
 
     });

@@ -11,7 +11,7 @@
             $datetime_end = Illuminate\Support\Carbon::parse($todo->time_to_end)->format('Y-m-d\TH:i');
         @endphp 
         <div x-data="{time_to_end: '{{ $datetime_end }}' }" class="mb-5 flex items-center">
-            <input name="time_to_start" type="datetime-local" step="3600" value="{{ $datetime_start }}" :max="time_to_end" {{$todo->entry_id ? 'readonly' : ''}} />
+            <input name="time_to_start" type="datetime-local" step="3600" value="{{ $datetime_start }}" :max="time_to_end" />
             <div class="{{ $todo->entry_id ? 'hidden' : '' }}">
                 <span>~</span>
                 <input name="time_to_end" type="datetime-local" step="3600" x-model="time_to_end" {{$todo->entry_id ? 'readonly' : ''}} />

@@ -10,30 +10,51 @@
         <!-- @if (session()->has('message'))
             <p>{{ session()->get('message') }}</p>
         @endif -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg" x-data="{
+                copyToClipboard(text){
+                    const pre = document.createElement('pre');
+                    pre.style.webkitUserSelect = 'auto';
+                    pre.style.userSelect = 'auto';
+                    pre.textContent = text;
+                    document.body.appendChild(pre);
+                    document.getSelection().selectAllChildren(pre);
+                    const result = document.execCommand('copy');
+                    document.body.removeChild(pre);
+                    return result;
+                  }
+            }">
                 @if(isset($templates))
-                @foreach ($templates as $template)
-                <div class="border-b-2 py-2 px-4">  
-                    <div class="flex justify-between items-center">
-                        <div class="flex-1 pr-10">
-                            <div class="mb-2 flex items-center">
-                                <h3 class="pr-4 text-lg">{{ $template->name }}</h3>
-                            </div>
+                @foreach ($templates as $index => $template)
+                <div class="border-b-2 py-2 px-4" x-data="{
+                    answer{{ $index }}: '{{ $template->answer }}',
+                    copied: false,
+                    open: false,
+                }">  
+                    <a href="" @click.prevent="open = !open">
+                        <div class="mb-2 flex items-center">
+                            <h3 class="pr-4 text-lg">{{ $template->name }}</h3>
+                            @if (isset($template->updated_at))
+                            <span class="text-sm">{{ $template->updated_at->diffForHumans() }}</span>
+                            @endif
                         </div>
-                        <div class="grid grid-cols-3">
-                            <div class="flex items-center justify-center">
-                                <a href="#" @click.prevent="$refs.answer.select();document.execCommand('copy')">
+                        @if ($template->answer)
+                        <div x-show="open" style="display: none;" class="flex justify-between items-center">
+                            <p x-text="answer{{ $index }}"></p>
+                            <div class="flex items-center justify-center pr-4">
+                                <span class="text-sm pr-3 bold transition duration-300" style="display: none;" x-show="copied">Copied!</span>
+                                <a href="#" @click.prevent="navigator.clipboard.writeText(answer{{$index}}).then(e => {
+                                    if(copied) return
+                                    copied = true
+                                    setTimeout(() => {
+                                        copied = false
+                                    }, 2000)
+                                });">
                                     <x-logos.clipboard-copy />
                                 </a>
                             </div>
-                            <div class="flex items-center justify-center">
-                               
-                            </div>
                         </div>
-                    </div>
-                    @if ($template->answer)
-                        <x-forms.textarea x-ref="answer" x-show="open" class="text-sm w-4/5" rows="10" readonly>{{ $template->answer }}</x-forms.textarea>   
-                    @endif                        
+                        @endif        
+                    </a>
                 </div>
                 @endforeach
                 @endif

@@ -14,10 +14,15 @@
                 <div class="border-b-2 p-3 flex justify-between">
                     <a href="/todo/create" class="block font-bold text-xl">タスクを追加</a>
                     <div class="flex items-center">
-                        <a href="/todo" class="px-3">未完了一覧</a>
-                        <a href="/todo/complete_todos" class="px-3">完了済一覧</a>
+                        <x-jet-nav-link href="{{ route('todo') }}" class="px-3" :active="request()->routeIs('todo')">
+                            未完了
+                        </x-jet-nav-link>
+                        <x-jet-nav-link href="{{ route('todo/complete_todos') }}" class="px-3" :active="request()->routeIs('todo/complete_todos')">
+                            完了済
+                        </x-jet-nav-link>
                     </div>
                 </div>
+                @if (isset($todos) && count($todos))
                 @foreach ($todos as $todo)
                 <div class="border-b-2 py-2 px-4 flex justify-between items-center">  
                     <a href="/todo/{{ $todo->id }}/edit" class="block w-4/5">
@@ -55,6 +60,11 @@
                     </div>                    
                 </div>
                 @endforeach
+                @else
+                <div class="py-20 px-4 text-center">
+                    <h1 class="text-xl">タスクがありません</h1>
+                </div>
+                @endif
             </div>
         </div>
     </div>

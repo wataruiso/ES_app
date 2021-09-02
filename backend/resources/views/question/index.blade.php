@@ -20,7 +20,7 @@
                     <p class="pl-3">@sortablelink('updated_at', '更新日')</p>
                     <p class="pl-3">@sortablelink('company_name', '会社名')</p>
                 </div>
-                @if(isset($questions))
+                @if(isset($questions) && count($questions))
                 @foreach ($questions as $question)
                 <div x-data="{open: false}" class="border-b-2 py-2 px-4 flex justify-between items-center">  
                     <a href="#" @click.prevent="open = !open" class="block w-4/5">
@@ -46,6 +46,10 @@
                     </div>                    
                 </div>
                 @endforeach
+                @else
+                <div class="py-20 px-4 text-center">
+                    <h1 class="text-xl">設問がありません</h1>
+                </div>
                 @endif
                 <div>
                     {{ $questions->appends(request()->query())->links() }}
