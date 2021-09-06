@@ -29,6 +29,8 @@
             </div>
         </div>
 
+        @livewire('entry-edit')
+
         <div>
             
             @if(isset($question_categories))
@@ -79,7 +81,7 @@
                     <x-slot name="template_insert_btn">
                         <a 
                         href="#" 
-                        x-show="1" 
+                        x-show="hitTemplateAnswer" 
                         style="display: none;"
                         @click.prevent="window.confirm('テンプレートを挿入してよろしいですか？' + '\n' + `最新のテンプレート: ${hitTemplateAnswer}`) ? insert() : false"
                         >テンプレートを挿入</a>
