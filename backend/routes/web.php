@@ -33,6 +33,8 @@ Route::prefix('oauth/{provider}')->where(['provider' => '(line|twitter|facebook|
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
     
     Route::prefix('todo')->group(function(){
         

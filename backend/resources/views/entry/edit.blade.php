@@ -16,7 +16,6 @@
             </div>
         </div>
         @php 
-            $max_question_num = 8;
             $deadline = Illuminate\Support\Carbon::parse($entry->deadline)->format('Y-m-d\TH:i');
             $templates_encoded = [];
             foreach ($templates as $key => $template) {
@@ -80,7 +79,7 @@
                     <x-slot name="template_insert_btn">
                         <a 
                         href="#" 
-                        x-show="hitTemplateAnswer" 
+                        x-show="1" 
                         style="display: none;"
                         @click.prevent="window.confirm('テンプレートを挿入してよろしいですか？' + '\n' + `最新のテンプレート: ${hitTemplateAnswer}`) ? insert() : false"
                         >テンプレートを挿入</a>
