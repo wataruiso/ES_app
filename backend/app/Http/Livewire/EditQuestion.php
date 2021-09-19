@@ -13,6 +13,8 @@ class EditQuestion extends Component
     public $name;
     public $word_count;
     public $answer;
+    //モデル
+    public $question_category;
 
     protected $rules = [
         'name' => 'required',
@@ -24,6 +26,7 @@ class EditQuestion extends Component
         $this->name = $question->name;
         $this->word_count = $question->word_count;
         $this->answer = $question->answer;
+        $this->question_category = new QuestionCategory();
     }
 
     public function render()
@@ -31,21 +34,12 @@ class EditQuestion extends Component
         return view('livewire.question.edit');
     }
 
-    //question(name, word_count)
-    public function getQuestionCategory()
-    {
-        return QuestionCategory::where('name', $this->name)->first();
-    }
-
     public function save()
     {
         $this->validate();
 
-        $question_category = $this->getQuestionCategory();
-        $question_category_id = $question_category ? $question_category->id : QuestionCategory::where('name', 'その他')->first()->id;
-
         $this->question->name = $this->name;
-        $this->question->question_category_id = $question_category_id;
+        $this->question->question_category_id = $this->question_category->getQuestionCategoryId($this->name);
         $this->question->word_count = $this->word_count;
         $this->question->save();
     }
@@ -85,7 +79,7 @@ class EditQuestion extends Component
     //template
     public function getTemplate()
     {
-        $question_category = $this->getQuestionCategory();
+        $question_category = $this->question_category->getQuestionCategory($this->name);
         if(!$question_category) return false; 
         $templates = $question_category->templates;
         return $templates->where('word_count', $this->word_count)->first();

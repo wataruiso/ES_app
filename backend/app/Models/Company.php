@@ -13,4 +13,11 @@ class Company extends Model
     public function entry() {
         return $this->hasOne(Entry::class);
     }
+
+    public function getCompanyId($company_name)
+    {
+       $company = $this->where('name', $company_name)->first();
+       if(!$company) $company = $this->create(['name' => $company_name]);
+       return $company->id;
+    }
 }

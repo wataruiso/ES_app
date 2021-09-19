@@ -14,4 +14,18 @@ class QuestionCategory extends Model
     {
         return $this->hasMany(Template::class);
     }
+
+    public function getQuestionCategory($category_name)
+    {
+        return $this->where('name', $category_name)->first();
+    }
+
+    public function getQuestionCategoryId($category_name)
+    {
+        $question_category = $this->getQuestionCategory($category_name);
+        return $question_category
+        ? $question_category->id 
+        : $this->where('name', 'その他')->first()->id;
+    }
+
 }

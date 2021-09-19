@@ -22,24 +22,16 @@ class CreateQuestion extends Component
         return view('livewire.question.create');
     }
 
-    public function getQuestionCategory()
-    {
-        return QuestionCategory::where('name', $this->name)->first();
-    }
-
     public function save()
     {
         $this->validate();
-        
-        $question_category = $this->getQuestionCategory();
-        $question_category_id = $question_category ? $question_category->id : QuestionCategory::where('name', 'その他')->first()->id;
-        $entry_id = $this->entry_id;
+        $question_category = new QuestionCategory();
 
         Question::create([
             'name' => $this->name,
             'word_count' => $this->word_count,
-            'question_category_id' => $question_category_id,
-            'entry_id' => $entry_id,
+            'question_category_id' => $question_category->getQuestionCategoryId($this->name),
+            'entry_id' => $this->entry_id,
         ]);
 
         $this->reset();

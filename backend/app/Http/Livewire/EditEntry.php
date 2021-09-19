@@ -35,10 +35,12 @@ class EditEntry extends Component
     public function save()//フォームのバリューからidを検索し、それをentryテーブルの外部キーに挿入
     {
         $this->validate();
+        $company = new Company();
+        $entry_category = new EntryCategory();
 
-        $this->entry->company_id = $this->getCompanyId();
+        $this->entry->company_id = $company->getCompanyId($this->company);
         $this->entry->category_name = $this->category;
-        $this->entry->entry_category_id = $this->getCategoryId();
+        $this->entry->entry_category_id = $entry_category->getEntryCategoryId($this->category);
         $this->entry->deadline = $this->deadline;
 
         $this->entry->save();
@@ -63,19 +65,6 @@ class EditEntry extends Component
     public function getCompany()
     {
        return Company::find($this->entry->company_id);
-    }
-
-    public function getCompanyId()
-    {
-       $company = Company::where('name', $this->company)->first();
-       if(!$company) $company = Company::create(['name' => $this->company]);
-       return $company->id;
-    }
-
-    public function getCategoryId()
-    {
-        $category = EntryCategory::where('name', $this->category)->first();
-       return $category ? $category->id : EntryCategory::where('name', 'その他')->first()->id;
     }
 
 }

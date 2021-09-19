@@ -29,27 +29,16 @@ class CreateEntry extends Component
         return view('livewire.entry.create');
     }
 
-    public function getCompanyId()
-    {
-       $company = Company::where('name', $this->company)->first();
-       if(!$company) $company = Company::create(['name' => $this->company]);
-       return $company->id;
-    }
-
-    public function getCategoryId()
-    {
-        $category = EntryCategory::where('name', $this->category)->first();
-       return $category ? $category->id : EntryCategory::where('name', 'その他')->first()->id;
-    }
-
     public function save()
     {
         $this->validate();
+        $company = new Company();
+        $entry_category = new EntryCategory();
         
         Entry::create([
-            'company_id' => $this->getCompanyId(),
+            'company_id' => $company->getCompanyId($this->company),
             'category_name' => $this->category,
-            'entry_category_id' => $this->getCategoryId(),
+            'entry_category_id' => $entry_category->getEntryCategoryId($this->category),
             'deadline' => $this->deadline,
         ]);
 

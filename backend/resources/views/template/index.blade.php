@@ -1,4 +1,4 @@
-<x-page-container>
+<x-page-container title="テンプレートリスト">
     @if(isset($templates))
     @foreach ($templates as $index => $template)
     <div class="border-b-2 py-2 px-4" x-data="{
