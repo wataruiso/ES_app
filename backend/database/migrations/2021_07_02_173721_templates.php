@@ -15,7 +15,8 @@ class Templates extends Migration
     {
         Schema::create('templates', function(Blueprint $table) {
             $table->increments('id');
-            $table->char('name', 20);
+            $table->foreignId('question_category_id');
+            $table->integer('word_count');
             $table->longText('answer')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();

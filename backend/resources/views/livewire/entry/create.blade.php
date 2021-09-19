@@ -1,0 +1,19 @@
+<div>
+    <x-entry-form>
+        <x-slot name="company_input">
+             <x-jet-input type="text" name="company" list="companies" wire:model="company"></x-jet-input>
+        </x-slot>
+        <x-slot name="category_input">
+             <x-jet-input type="text" name="category" list="categories" wire:model="category"></x-jet-input>
+        </x-slot>
+        <x-slot name="deadline_input">
+             <x-jet-input name="deadline" type="datetime-local" step="3600" wire:model="deadline" />
+        </x-slot>
+        <x-slot name="btn">
+             <div class="pl-4">
+               <x-jet-button wire:click.prevent="save">作成</x-jet-button>
+             </div>
+             <a href="#" @click.prevent="editable = false" class="pl-4 text-xl">✖</a>
+        </x-slot>
+    </x-entry-form>
+</div>

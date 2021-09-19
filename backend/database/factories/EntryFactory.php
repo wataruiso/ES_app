@@ -5,6 +5,9 @@ namespace Database\Factories;
 use App\Models\Entry;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use \App\Models\EntryCategory;
+use \App\Models\Company;
+
 class EntryFactory extends Factory
 {
     /**
@@ -21,9 +24,13 @@ class EntryFactory extends Factory
      */
     public function definition()
     {
+        $category = EntryCategory::inRandomOrder()->first();
+
         return [
-            'title' => $this->faker->name(),
-            'description' => $this->faker->realText(),
+            'company_id' => Company::inRandomOrder()->first()->id,
+            'entry_category_id' => $category->id,
+            'category_name' => $category->name != 'その他' ? $category->name : $this->faker->realText(20),
+            'deadline' => $this->faker->dateTime(),
         ];
     }
 }

@@ -15,7 +15,8 @@ class EntrySeeder extends Seeder
     public function run()
     {
         Entry::factory()
-            ->count(10)
+            ->count(20)
+            ->hasQuestions(3)
             ->create();
     }
 }

@@ -5,6 +5,8 @@ namespace Database\Factories;
 use App\Models\Todo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Entry;
+
 class TodoFactory extends Factory
 {
     /**
@@ -22,8 +24,19 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->name(),
-            'description' => $this->faker->realText(),
+            'title' => $this->faker->realText(20),
+            'description' => $this->faker->realText(300),
+            'entry_id' => $this->createRelatedEntryId(),
+            'start_at' => now(),
+            'end_at' => now(),
+            'is_done' => $this->faker->boolean(),
+            
         ];
+    }
+
+    public function createRelatedEntryId()
+    {
+        $entry_id = Entry::inRandomOrder()->first()->id;
+        return rand(1,100) > 80 ? $entry_id : null;
     }
 }

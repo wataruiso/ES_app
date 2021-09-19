@@ -14,8 +14,6 @@
 
 [テキスト入力・メニュー選択どちらもできるdatalist要素を使ったフォームの作り方](https://www.aiship.jp/knowhow/archives/28287)
 
-[【Laravel】初めての認証（Laravel8でJetstreamを使う）](https://qiita.com/manbolila/items/498aae00f3574c72f031)
-
 [【Laravel】JetstreamでSNS認証（ソーシャルログイン）](https://qiita.com/manbolila/items/b64d0e9a9d42e4b8502c)
 
 [JavaScriptでクリップボードに文字をコピーする(ブラウザ)](https://qiita.com/simiraaaa/items/2e7478d72f365aa48356)
@@ -25,3 +23,5 @@
 [【Laravel】画面で指定したソート条件をページング先でも反映させる](https://qiita.com/C_HERO/items/bad46a41d8a883704a14)
 
 [PHPからJavascriptに値を渡すときの注意点(ダブルクオートとシングルクオート)](https://qiita.com/Yorinton/items/bfa08b980c7e05c68dd8)
+
+[Laravel LivewireでCRUDを実装してみる](https://kobatech-blog.com/livewire/)

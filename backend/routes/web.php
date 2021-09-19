@@ -10,6 +10,10 @@ use App\Http\Controllers\EntryController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\CompanyController;
+
+use App\Http\Livewire\EntryEdit;
+use App\Http\Livewire\EntryEditAnswer;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,14 +55,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     });
     
     Route::prefix('entry')->group(function(){
-
         Route::get('/', [EntryController::class, 'index'])->name('entry');
-        Route::get('/create', [EntryController::class, 'create']);
-        Route::post('/', [EntryController::class, 'store']);
         Route::get('/{id}/edit', [EntryController::class, 'edit']);
-        Route::put('/{id}', [EntryController::class, 'update']);
-        Route::delete('/{id}', [EntryController::class, 'delete']);
-        
     });
 
     Route::prefix('question')->group(function(){

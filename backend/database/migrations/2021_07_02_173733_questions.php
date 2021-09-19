@@ -17,7 +17,6 @@ class Questions extends Migration
             $table->increments('id');
             $table->char('name', 20);
             $table->foreignId('entry_id');
-            $table->integer('question_num');
             $table->foreignId('question_category_id');
             $table->integer('word_count');
             $table->longText('answer')->nullable();

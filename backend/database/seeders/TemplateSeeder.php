@@ -17,15 +17,16 @@ class TemplateSeeder extends Seeder
     {
         $question_categories = QuestionCategory::where('name', '!=', 'その他')->get();
         $word_counts = [200, 300, 400];
-        $names = [];
+        $templates = [];
         foreach ($question_categories as $question_category) {
             foreach ($word_counts as $word_count) {
-                array_push($names, [
-                    'name' => $question_category->name . '-' . $word_count,
+                array_push($templates, [
+                    'question_category_id' => $question_category->id,
+                    'word_count' => $word_count,
                 ]);
             }
         }
         
-        DB::table('templates')->insert($names);
+        DB::table('templates')->insert($templates);
     }
 }
