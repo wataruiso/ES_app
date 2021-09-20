@@ -5,8 +5,6 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use \App\Models\Company;
 use \App\Models\EntryCategory;
-use Illuminate\Support\Carbon;
-
 
 class EditEntry extends Component
 {
@@ -21,15 +19,11 @@ class EditEntry extends Component
         'deadline' => 'required|date|after_or_equal:today',
     ];
 
-    protected $casts = [
-        'deadline' => 'dateTime:Y-m-d\TH:i'
-    ];
-
     public function mount($entry)//entryテーブルの外部キーをバリューに変換し、フォームに反映する
     {
         $this->company = $this->getCompany()->name; 
         $this->category = $entry->category_name; 
-        $this->deadline = Carbon::parse($entry->deadline)->format('Y-m-d\TH:i');
+        $this->deadline = \Util::getFormDateTime($entry->deadline);
     }
 
     public function save()//フォームのバリューからidを検索し、それをentryテーブルの外部キーに挿入
@@ -59,7 +53,7 @@ class EditEntry extends Component
 
     public function getTitleDeadline()
     {
-       return Carbon::parse($this->entry->deadline)->format('Y-m-d H:i');
+       return \Util::getDisplayDatetime($this->entry->deadline);
     }
     
     public function getCompany()

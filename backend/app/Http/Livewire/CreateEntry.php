@@ -21,7 +21,7 @@ class CreateEntry extends Component
 
     public function mount()
     {
-        $this->deadline = date('Y-m-d') . 'T00:00';
+        $this->deadline = \Util::getInitialDateTime();
     }
 
     public function render()

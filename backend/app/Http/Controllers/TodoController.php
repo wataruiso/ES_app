@@ -10,12 +10,7 @@ class TodoController extends Controller
     public function index()
     {
         return view('todo.index')
-            ->with('todos', Todo::where('is_done', false)->orderBy('time_to_start', 'ASC')->get());
-    }
-
-    public function create()
-    {
-        return view('todo.create');
+            ->with('todos', Todo::where('is_done', false)->orderBy('start_at', 'ASC')->get());
     }
 
     public function store(Request $request)

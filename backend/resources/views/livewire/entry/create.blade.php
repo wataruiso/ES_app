@@ -1,10 +1,10 @@
 <div>
     <x-entry-form>
         <x-slot name="company_input">
-             <x-jet-input type="text" name="company" list="companies" wire:model="company"></x-jet-input>
+             <x-jet-input type="text" name="company" list="companies" wire:model="company" />
         </x-slot>
         <x-slot name="category_input">
-             <x-jet-input type="text" name="category" list="categories" wire:model="category"></x-jet-input>
+             <x-jet-input type="text" name="category" list="categories" wire:model="category" />
         </x-slot>
         <x-slot name="deadline_input">
              <x-jet-input name="deadline" type="datetime-local" step="3600" wire:model="deadline" />

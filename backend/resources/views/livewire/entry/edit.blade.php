@@ -11,16 +11,16 @@
         <div x-show="editable" style="display: none;">
            <x-entry-form>
                <x-slot name="company_input">
-                    <x-jet-input type="text" name="company" list="companies" wire:model="company" wire:change="save"></x-jet-input>
+                    <x-jet-input type="text" name="company" list="companies" wire:model="company" wire:change="save" />
                </x-slot>
                <x-slot name="category_input">
-                    <x-jet-input type="text" name="category" list="categories" wire:model="category" wire:change="save"></x-jet-input>
+                    <x-jet-input type="text" name="category" list="categories" wire:model="category" wire:change="save" />
                </x-slot>
                <x-slot name="deadline_input">
                     <x-jet-input name="deadline" type="datetime-local" step="3600" wire:model="deadline" wire:change="save" />
                </x-slot>
                <x-slot name="btn">
-                    <a href="#" @click.prevent="confirm('このESを削除します。よろしいですか？') ? $wire.delete() : false" class="text-red-600"><x-logos.trash></x-logos.trash></a>
+                    <a href="#" @click.prevent="confirm('このESを削除します。よろしいですか？') ? $wire.delete() : false" class="text-red-600"><x-logos.trash /></a>
                     <a href="#" @click.prevent="editable = false" class="pl-4 text-xl">✖</a>
                </x-slot>
            </x-entry-form>
