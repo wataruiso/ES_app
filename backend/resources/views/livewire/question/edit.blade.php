@@ -8,7 +8,7 @@
                 </a>
             </div>
         </div>
-        <div class="w-4/5" x-show="editable">
+        <div class="w-4/5" x-show="editable" style="display: none;">
             <x-question-form>
                 <x-slot name="name_input">
                     <x-jet-input wire:model="name" wire:change="save" type="text" list="question_categories" class="block w-full" />

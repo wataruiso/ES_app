@@ -1,7 +1,7 @@
 <div>
     <div class="flex items-center">
         <div class="flex items-center pr-5">
-            <label for="company">企業名</label>
+            <label>企業名</label>
             <div class="px-3 flex-1">
                 <datalist id="companies">
                 @foreach(\App\Models\Company::all() as $company)
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="flex items-center pr-5">
-            <label for="category">カテゴリー</label>
+            <label>カテゴリー</label>
             <div class="px-3 flex-1">
                 <datalist id="categories">
                 @foreach(\App\Models\EntryCategory::where('name', '!=', 'その他')->get() as $category)
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="flex items-center">
-            <label for="deadline">締切日時</label>
+            <label>締切日時</label>
             <div class="px-3">
                 {{ $deadline_input }}
             </div>

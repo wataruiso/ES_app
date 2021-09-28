@@ -16,12 +16,12 @@ class CreateEntry extends Component
     protected $rules = [
         'company' => 'required',
         'category' => 'required',
-        'deadline' => 'required|date|after_or_equal:today',
+        'deadline' => 'date|after_or_equal:today',
     ];
 
     public function mount()
     {
-        $this->deadline = \Util::getInitialDateTime();
+        $this->deadline = \Util::getInitialDatetime();
     }
 
     public function render()

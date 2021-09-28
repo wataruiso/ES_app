@@ -136,9 +136,14 @@ return [
         'word_count' => '文字数' , 
         'deadline' => '締切日' , 
         'category' => 'カテゴリー' , 
+        'title' => 'タイトル' , 
+        'start_at' => '予定日時' , 
     ],
     'values' => [
         'deadline' => [
+            'today' => '本日',
+        ],
+        'start_at' => [
             'today' => '本日',
         ],
     ],

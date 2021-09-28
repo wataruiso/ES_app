@@ -1,22 +1,24 @@
-<div>
-    <div class="mb-5">
-        <x-jet-input wire:model="title" />
-    </div>
-    <div class="mb-5 flex items-center">
-        <x-jet-input type="datetime-local" step="3600" wire:model="start_at" />
-        <div>
-            <span>~</span>
-            <x-jet-input type="datetime-local" step="3600" wire:model="end_at" />
-        </div>
-    </div>
-    <div class="mb-5">
+<x-todo-form>
+    <x-slot name="title_input">
+        <x-jet-input type="text" wire:model="title" class="block w-full" />
+    </x-slot>
+    <x-slot name="start_at_input">
+        <x-jet-input type="datetime-local" step="3600" wire:change="fixEndAt" wire:model="start_at" />
+    </x-slot>
+    <x-slot name="end_at_input">
+        <x-jet-input type="datetime-local" step="3600" wire:change="fixStartAt" wire:model="end_at" />
+    </x-slot>
+    <x-slot name="description_input">
         <x-forms.textarea 
-            class="w-4/5 max-w-4xl"
-            rows="10"
-            wire:model="description"
-            ></x-forms.textarea>
-    </div>
-    <div>
-        <x-jet-button>作成</x-jet-button>
-    </div>
-</div>
+        class="w-full"
+        rows="6"
+        wire:model="description"
+        ></x-forms.textarea>
+    </x-slot>
+    <x-slot name="close_btn">
+        <a href="#" @click.prevent="editable = false" class="text-xl">✖</a>
+    </x-slot>
+    <x-slot name="submit_btn">
+        <x-jet-button wire:click.prevent="save">作成</x-jet-button>
+    </x-slot>
+</x-todo-form>

@@ -16,14 +16,14 @@ class EditEntry extends Component
     protected $rules = [
         'company' => 'required',
         'category' => 'required',
-        'deadline' => 'required|date|after_or_equal:today',
+        'deadline' => 'date|after_or_equal:today',
     ];
 
     public function mount($entry)//entryテーブルの外部キーをバリューに変換し、フォームに反映する
     {
         $this->company = $this->getCompany()->name; 
         $this->category = $entry->category_name; 
-        $this->deadline = \Util::getFormDateTime($entry->deadline);
+        $this->deadline = \Util::getFormDatetime($entry->deadline);
     }
 
     public function save()//フォームのバリューからidを検索し、それをentryテーブルの外部キーに挿入
@@ -49,11 +49,6 @@ class EditEntry extends Component
     {
         $this->entry->delete();
         return redirect()->to("/entry");
-    }
-
-    public function getTitleDeadline()
-    {
-       return \Util::getDisplayDatetime($this->entry->deadline);
     }
     
     public function getCompany()

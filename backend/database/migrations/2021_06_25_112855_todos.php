@@ -19,7 +19,7 @@ class Todos extends Migration
             $table->longText('description')->nullable();
             $table->foreignId('entry_id')->nullable();
             $table->dateTime('start_at');
-            $table->dateTime('end_at')->nullable();
+            $table->dateTime('end_at');
             $table->boolean('is_done');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');

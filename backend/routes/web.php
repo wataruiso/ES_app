@@ -43,14 +43,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
     Route::prefix('todo')->group(function(){
         
         Route::get('/', [TodoController::class, 'index'])->name('todo');
-        Route::get('/create', [TodoController::class, 'create']);
-        Route::post('/', [TodoController::class, 'store']);
-        Route::get('/{id}/edit', [TodoController::class, 'edit']);
-        Route::put('/{id}', [TodoController::class, 'update']);
-        Route::delete('/{id}', [TodoController::class, 'delete']);
-        Route::put('/{id}/complete', [TodoController::class, 'complete']);
-        Route::get('/complete_todos', [TodoController::class, 'getCompleteTodos'])->name('todo/complete_todos');
-        Route::get('/{id}/edit_entry', [TodoController::class, 'editEntry']);
 
     });
     
