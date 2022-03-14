@@ -8,7 +8,7 @@
     }">  
         <div class="py-1 flex items-center">
             <a href="" @click.prevent="open = !open" class="text-lg flex items-center">
-                {{ $template->name }}-{{ $template->word_count }}
+                {{ $template->name }}-{{ $template->word_count }}字
                 @if(isset($template->updated_at))
                 <span class="pl-4 text-sm">
                     {{ Illuminate\Support\Carbon::parse($template->updated_at)->diffForHumans() }}

@@ -26,6 +26,7 @@ class CreateQuestion extends Component
     {
         $this->validate();
         $question_category = new QuestionCategory();
+        $entry_id = $this->entry_id;
 
         Question::create([
             'name' => $this->name,

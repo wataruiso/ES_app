@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use \App\Models\QuestionCategory;
+use \App\Models\Template;
+use Illuminate\Support\Facades\Auth;
 
 class EditQuestion extends Component
 {
@@ -77,12 +79,17 @@ class EditQuestion extends Component
     }
 
     //template
-    public function getTemplate()
+    public function getTemplateQuestion()
     {
         $question_category = $this->question_category->getQuestionCategory($this->name);
         if(!$question_category) return false; 
-        $templates = $question_category->templates;
-        return $templates->where('word_count', $this->word_count)->first();
+        $template_question = $question_category->templateQuestions->where('word_count', $this->word_count)->first();
+        return $template_question;
+    }
+
+    public function getTemplate()
+    {
+        return $this->getTemplateQuestion() ? $this->getTemplateQuestion()->template : false;
     }
 
     public function insertTemplate()
@@ -98,6 +105,12 @@ class EditQuestion extends Component
         if($template) {
             $template->answer = $this->answer;
             $template->save();
+        }else {
+            Template::create([
+                'user_id' => Auth::id(),
+                'template_question_id' => $this->getTemplateQuestion()->id,
+                'answer' => $this->answer,
+            ]);
         }
     }
     

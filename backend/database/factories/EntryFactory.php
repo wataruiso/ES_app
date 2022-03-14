@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 use \App\Models\EntryCategory;
 use \App\Models\Company;
+use \App\Models\User;
 
 class EntryFactory extends Factory
 {
@@ -28,6 +29,7 @@ class EntryFactory extends Factory
 
         return [
             'company_id' => Company::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'entry_category_id' => $category->id,
             'category_name' => $category->name != 'その他' ? $category->name : $this->faker->realText(20),
             'deadline' => $this->faker->dateTime(),

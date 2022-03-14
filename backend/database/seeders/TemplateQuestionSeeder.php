@@ -4,9 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use \App\Models\QuestionCategory;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-class TemplateSeeder extends Seeder
+class TemplateQuestionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -27,6 +28,6 @@ class TemplateSeeder extends Seeder
             }
         }
         
-        DB::table('templates')->insert($templates);
+        DB::table('template_questions')->insert($templates);
     }
 }

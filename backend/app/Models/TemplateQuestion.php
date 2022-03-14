@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Entry extends Model
+class TemplateQuestion extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function questions()
+    public function template()
     {
-        return $this->hasMany(Question::class);
-    }
-    public function todo()
-    {
-        return $this->hasOne(Todo::class);
+        return $this->hasOne(Template::class);
     }
 }

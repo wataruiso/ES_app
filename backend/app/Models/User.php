@@ -58,4 +58,15 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function entries()
+    {
+        return $this->hasMany(Entry::class);
+    }
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
+
 }

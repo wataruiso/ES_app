@@ -10,9 +10,9 @@ class QuestionCategory extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function templates()
+    public function templateQuestions()
     {
-        return $this->hasMany(Template::class);
+        return $this->hasMany(TemplateQuestion::class);
     }
 
     public function getQuestionCategory($category_name)

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use \App\Models\Todo;
+use Illuminate\Support\Facades\Auth;
 
 class CreateTodo extends Component
 {
@@ -33,6 +34,7 @@ class CreateTodo extends Component
         $this->validate();
 
         Todo::create([
+            'user_id' => Auth::id(),
             'title' => $this->title,
             'start_at' => $this->start_at,
             'end_at' => $this->end_at,

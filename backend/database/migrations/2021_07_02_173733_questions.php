@@ -19,7 +19,7 @@ class Questions extends Migration
             $table->foreignId('entry_id');
             $table->foreignId('question_category_id');
             $table->integer('word_count');
-            $table->longText('answer')->nullable();
+            $table->text('answer')->nullable();
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

@@ -34,12 +34,13 @@
         </div>                    
     </div>
     @endforeach
+    <div>
+        {{ $questions->appends(request()->query())->links() }}
+    </div>
     @else
     <div class="py-20 px-4 text-center">
         <h1 class="text-xl">設問がありません</h1>
     </div>
     @endif
-    <div>
-        {{ $questions->appends(request()->query())->links() }}
-    </div>
+
 </x-page-container>

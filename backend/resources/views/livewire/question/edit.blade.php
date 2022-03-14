@@ -51,19 +51,29 @@
                 >
                     <div class="relative">
                         <p class="pb-2">現在のテンプレート</p>
-                        <p class="pb-5">{{ $this->getTemplate()->answer ?? '登録されているテンプレートがありません' }}</p>
+                        <p class="pb-5">
                         @if ($this->getTemplate())
+                        {{ $this->getTemplate()->answer }}
+                        @else
+                        登録されているテンプレートがありません
+                        @endif
+                        </p>
+                        @if ($this->getTemplateQuestion())
                         <div>
+                            @if ($this->getTemplate())
                             <a 
                             href="#" 
                             x-on:click.prevent="confirm('現在のテンプレートを現在の回答に挿入します。よろしいですか？\n※現在の回答は失われます') ? $wire.insertTemplate() : false" 
-                            class="inline-block p-2 text-white rounded-md text-sm bg-indigo-400"
+                            class="mr-3 inline-block p-2 text-white rounded-md text-sm bg-indigo-400"
                             >挿入する</a> 
+                            @endif
+                            @if ($answer)
                             <a 
                             href="#" 
                             x-on:click.prevent="confirm('現在の回答をテンプレートに反映させます。よろしいですか？\n※現在のテンプレートは失われます') ? $wire.updateTemplate() : false" 
                             class="inline-block p-2 text-white rounded-md text-sm bg-indigo-400"
                             >現在の回答に置き換える</a>
+                            @endif
                         </div>
                         @endif
                         <a href="#" @click.prevent="shown = false" class="text-xl text-indigo-400 absolute -top-1 -right-0.5">✖</a>

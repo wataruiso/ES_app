@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             EntryCategorySeeder::class,
             QuestionCategorySeeder::class,
             CompanySeeder::class,
-            TemplateSeeder::class,
+            TemplateQuestionSeeder::class,
             EntrySeeder::class,
             TodoSeeder::class,
         ]);

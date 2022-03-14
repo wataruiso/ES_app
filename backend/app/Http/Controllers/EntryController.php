@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use \App\Models\Entry;
+use Illuminate\Support\Facades\Auth;
 
 class EntryController extends Controller
 {
     public function index()
     {
-        $entries = DB::table('entries')
+        $entries = Entry::select('entries.*', 'companies.name', 'entry_categories.name as category')
         ->join('companies', 'entries.company_id', '=', 'companies.id')
         ->join('entry_categories', 'entries.entry_category_id', '=', 'entry_categories.id')
-        ->select('entries.*', 'companies.name', 'entry_categories.name as category')
+        ->where('entries.user_id', Auth::id())
         ->get();
         return view('entry.index')
             ->with('entries', $entries);

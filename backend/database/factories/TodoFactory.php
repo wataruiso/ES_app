@@ -6,6 +6,7 @@ use App\Models\Todo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Entry;
+use App\Models\User;
 
 class TodoFactory extends Factory
 {
@@ -24,6 +25,7 @@ class TodoFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => User::inRandomOrder()->first()->id,
             'title' => $this->faker->realText(20),
             'description' => $this->faker->realText(300),
             'entry_id' => $this->createRelatedEntryId(),

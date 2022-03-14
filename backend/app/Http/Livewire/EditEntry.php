@@ -38,6 +38,15 @@ class EditEntry extends Component
         $this->entry->deadline = $this->deadline;
 
         $this->entry->save();
+
+        $todo = $this->entry->todo;
+        if($todo) {
+            $todo->update([
+                'title' => $this->company . '-' . $this->category . 'ES締切',
+                'start_at' => $this->deadline,
+                'end_at' => $this->deadline,
+            ]);
+        }
     }
 
     public function render()

@@ -15,6 +15,7 @@ class Entries extends Migration
     {
         Schema::create('entries', function(Blueprint $table) {
             $table->increments('id');
+            $table->foreignId('user_id');
             $table->foreignId('company_id');
             $table->char('category_name', 20);
             $table->foreignId('entry_category_id');

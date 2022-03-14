@@ -15,8 +15,9 @@ class Todos extends Migration
     {
         Schema::create('todos', function(Blueprint $table) {
             $table->increments('id');
+            $table->foreignId('user_id');
             $table->char('title', 20);
-            $table->longText('description')->nullable();
+            $table->text('description')->nullable();
             $table->foreignId('entry_id')->nullable();
             $table->dateTime('start_at');
             $table->dateTime('end_at');
